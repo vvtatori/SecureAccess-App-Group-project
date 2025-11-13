@@ -1,0 +1,553 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
+ */
+package secureaccess;
+
+import java.awt.Color;
+import javax.swing.JOptionPane;
+
+/**
+ *
+ * @author vvtat
+ */
+public class ViewPasswordGUI extends javax.swing.JFrame {
+    
+    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(ViewPasswordGUI.class.getName());
+
+    private final SessionManager sessionManager;
+    private final String userEmail;
+    private final DashboardGUI parentDashboard;
+    private PasswordEntry currentEntry;
+    private boolean isEditing = false; //to track edit mode
+    private PasswordEntry originalEntry;
+    
+    //Creates new form PasswordCardGUI
+    public ViewPasswordGUI() {
+        this.sessionManager = null;
+        this.userEmail = "";
+        this.parentDashboard = null;
+        initComponents();
+    }
+    
+    //Creates a new form ViewPasswordGUI with session information and a specific entry.
+    public ViewPasswordGUI(SessionManager sm, String userEmail, PasswordEntry entry, DashboardGUI parent) {
+        this.sessionManager = sm;
+        this.userEmail = userEmail;
+        this.currentEntry = entry;
+        this.originalEntry = entry;
+        this.parentDashboard = parent;
+        
+        initComponents();
+        this.setLocationRelativeTo(null); // Center the window
+        // Set initial state for password field
+        passwordTF.setEchoChar('*'); 
+        
+        // Populate fields with data
+        loadEntryData();
+        // Set up initial state (not editable)
+        setEditMode(false); 
+    }
+    
+    private void loadEntryData() {
+        if (currentEntry == null) return;
+        siteTF.setText(currentEntry.getName());
+        usernameTF.setText(currentEntry.getUsername());
+        urlTF.setText(currentEntry.getUrl());
+        categoryTF.setText(currentEntry.getCategory());
+        //notesTF.setText(currentEntry.getNotes());
+        
+        if (notesTF != null) {
+            notesTF.setText(currentEntry.getNotes());
+        }
+        // Decrypt and display password strength
+        String decryptedPsw = EncryptionUtil.decrypt(currentEntry.getEncryptedPassword());
+        passwordTF.setText(decryptedPsw);
+        checkPasswordStrength(decryptedPsw);
+        
+        // Immediately hide the decrypted password
+        passwordTF.setText(decryptedPsw); 
+        passwordTF.setEchoChar('*'); 
+    }
+    
+    //For editting state
+    private void setEditMode(boolean editMode) {
+        isEditing = editMode;
+        // Fields' editability
+        siteTF.setEditable(editMode);
+        usernameTF.setEditable(editMode);
+        passwordTF.setEditable(editMode);
+        urlTF.setEditable(editMode);
+        categoryTF.setEditable(editMode);
+        //notesTF.setEditable(editMode);
+        
+        if (notesTF != null) { 
+            notesTF.setEditable(editMode);
+        }
+        
+        // Button visibility/text
+        saveBTN.setVisible(editMode);
+        editBTN.setText(editMode ? "CANCEL" : "EDIT");
+        deleteBTN.setVisible(!editMode); // DELETE button visible only when NOT editing
+    }
+    
+    //Password strength checker
+    private void checkPasswordStrength(String password) {
+        if (password == null || password.isEmpty()) {
+            pswdProgressBar.setValue(0);
+            passwordStrengthLBL.setText("Password Strength: N/A");
+            pswdProgressBar.setForeground(Color.GRAY);
+            return;
+        }
+
+        int score = PasswordStrengthUtil.calculateStrength(password);
+        pswdProgressBar.setValue(score);
+
+        if (score < 25) {
+            pswdProgressBar.setForeground(Color.RED);
+            passwordStrengthLBL.setText("Strength: Weak");
+        } else if (score < 50) {
+            pswdProgressBar.setForeground(Color.ORANGE);
+            passwordStrengthLBL.setText("Strength: Fair");
+        } else if (score < 75) {
+            pswdProgressBar.setForeground(Color.YELLOW);
+            passwordStrengthLBL.setText("Strength: Good");
+        } else {
+            pswdProgressBar.setForeground(Color.GREEN);
+            passwordStrengthLBL.setText("Strength: Strong");
+        }
+    }
+    
+    // Helper method to transition back to the dashboard
+    private void returnToDashboard() {
+        if (sessionManager != null) sessionManager.touch();
+        this.dispose();
+        if (parentDashboard != null) {
+            parentDashboard.refreshPasswordList();
+            parentDashboard.setVisible(true);
+        } else {
+             new DashboardGUI(sessionManager, userEmail).setVisible(true);
+        }
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        background = new javax.swing.JPanel();
+        jPanel2 = new javax.swing.JPanel();
+        siteLBL = new javax.swing.JLabel();
+        siteTF = new javax.swing.JTextField();
+        usernameLBL = new javax.swing.JLabel();
+        usernameTF = new javax.swing.JTextField();
+        passwordLBL = new javax.swing.JLabel();
+        passwordTF = new javax.swing.JPasswordField();
+        viewPswBTN = new javax.swing.JRadioButton();
+        passwordStrengthLBL = new javax.swing.JLabel();
+        pswdProgressBar = new javax.swing.JProgressBar();
+        urlLBL = new javax.swing.JLabel();
+        urlTF = new javax.swing.JTextField();
+        categoryLBL = new javax.swing.JLabel();
+        categoryTF = new javax.swing.JTextField();
+        editBTN = new javax.swing.JButton();
+        deleteBTN = new javax.swing.JButton();
+        notesLBL = new javax.swing.JLabel();
+        notesTF = new javax.swing.JTextField();
+        jSeparator1 = new javax.swing.JSeparator();
+        titleLBL = new javax.swing.JLabel();
+        backBTN = new javax.swing.JButton();
+        saveBTN = new javax.swing.JButton();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        background.setBackground(new java.awt.Color(0, 51, 51));
+
+        jPanel2.setBackground(new java.awt.Color(0, 91, 94));
+
+        siteLBL.setForeground(new java.awt.Color(255, 255, 255));
+        siteLBL.setText("Site name");
+
+        usernameLBL.setForeground(new java.awt.Color(255, 255, 255));
+        usernameLBL.setText("Username/ Email");
+
+        passwordLBL.setForeground(new java.awt.Color(255, 255, 255));
+        passwordLBL.setText("Password");
+
+        viewPswBTN.setForeground(new java.awt.Color(255, 255, 255));
+        viewPswBTN.setText("view");
+        viewPswBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                viewPswBTNActionPerformed(evt);
+            }
+        });
+
+        passwordStrengthLBL.setForeground(new java.awt.Color(255, 255, 255));
+        passwordStrengthLBL.setText("Password Strength");
+
+        urlLBL.setForeground(new java.awt.Color(255, 255, 255));
+        urlLBL.setText("URL");
+
+        urlTF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                urlTFActionPerformed(evt);
+            }
+        });
+
+        categoryLBL.setForeground(new java.awt.Color(255, 255, 255));
+        categoryLBL.setText("Category");
+
+        editBTN.setBackground(new java.awt.Color(0, 153, 153));
+        editBTN.setForeground(new java.awt.Color(102, 255, 255));
+        editBTN.setText("EDIT");
+        editBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editBTNActionPerformed(evt);
+            }
+        });
+
+        deleteBTN.setBackground(new java.awt.Color(153, 0, 0));
+        deleteBTN.setForeground(new java.awt.Color(255, 153, 153));
+        deleteBTN.setText("DELETE");
+        deleteBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBTNActionPerformed(evt);
+            }
+        });
+
+        notesLBL.setForeground(new java.awt.Color(255, 255, 255));
+        notesLBL.setText("Notes");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(notesLBL)
+                            .addComponent(urlTF, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(passwordTF, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(30, 30, 30)
+                                .addComponent(viewPswBTN)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(passwordStrengthLBL)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(pswdProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(usernameTF, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 14, Short.MAX_VALUE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(notesTF, javax.swing.GroupLayout.DEFAULT_SIZE, 154, Short.MAX_VALUE)
+                            .addComponent(siteLBL, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(categoryLBL, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(urlLBL, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(passwordLBL, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(usernameLBL, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(siteTF)
+                            .addComponent(categoryTF))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(editBTN)
+                        .addGap(36, 36, 36)
+                        .addComponent(deleteBTN)
+                        .addGap(18, 18, 18))))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addComponent(siteLBL)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(siteTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(usernameLBL)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(usernameTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addComponent(passwordLBL)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(passwordTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(pswdProgressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(31, 31, 31)
+                        .addComponent(urlLBL)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(urlTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(categoryLBL)
+                        .addGap(18, 18, 18)
+                        .addComponent(categoryTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(notesLBL)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(deleteBTN)
+                            .addComponent(editBTN)
+                            .addComponent(notesTF, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(viewPswBTN)
+                            .addComponent(passwordStrengthLBL))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+
+        titleLBL.setFont(new java.awt.Font("HP Simplified Hans", 1, 24)); // NOI18N
+        titleLBL.setForeground(new java.awt.Color(255, 255, 255));
+        titleLBL.setText("xPassword");
+
+        backBTN.setBackground(new java.awt.Color(0, 51, 51));
+        backBTN.setForeground(new java.awt.Color(255, 255, 255));
+        backBTN.setText("← Back");
+        backBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backBTNActionPerformed(evt);
+            }
+        });
+
+        saveBTN.setBackground(new java.awt.Color(0, 204, 204));
+        saveBTN.setForeground(new java.awt.Color(0, 51, 51));
+        saveBTN.setText("SAVE");
+        saveBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveBTNActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout backgroundLayout = new javax.swing.GroupLayout(background);
+        background.setLayout(backgroundLayout);
+        backgroundLayout.setHorizontalGroup(
+            backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backgroundLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparator1)
+                    .addGroup(backgroundLayout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(backBTN, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(backgroundLayout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addComponent(titleLBL)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 250, Short.MAX_VALUE)
+                .addComponent(saveBTN)
+                .addGap(31, 31, 31))
+            .addGroup(backgroundLayout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        backgroundLayout.setVerticalGroup(
+            backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(backgroundLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(backBTN)
+                .addGap(15, 15, 15)
+                .addGroup(backgroundLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(backgroundLayout.createSequentialGroup()
+                        .addComponent(titleLBL)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(saveBTN))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(38, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        pack();
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void urlTFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_urlTFActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_urlTFActionPerformed
+
+    private void backBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backBTNActionPerformed
+        // TODO add your handling code here:
+        returnToDashboard();
+    }//GEN-LAST:event_backBTNActionPerformed
+
+    private void viewPswBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewPswBTNActionPerformed
+        // TODO add your handling code here:
+        if (sessionManager != null) sessionManager.touch();
+        if (viewPswBTN.isSelected()) {
+            // Decrypt on demand when viewing
+            String decryptedPsw = EncryptionUtil.decrypt(currentEntry.getEncryptedPassword());
+            if (decryptedPsw.equals("[Decryption Failed]")) {
+                 JOptionPane.showMessageDialog(this, "Decryption failed. Data may be corrupted.", "Security Error", JOptionPane.ERROR_MESSAGE);
+                 viewPswBTN.setSelected(false);
+                 return;
+            }
+            passwordTF.setText(decryptedPsw);
+            passwordTF.setEchoChar((char) 0); // Show password
+        } else {
+            // Restore hidden state
+            passwordTF.setEchoChar('*'); // Hide password
+            // Re-populate from current state to ensure the visible password is set if edited
+            String currentPassword = new String(passwordTF.getPassword());
+            passwordTF.setText(currentPassword); 
+        }
+    }//GEN-LAST:event_viewPswBTNActionPerformed
+
+    private void saveBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBTNActionPerformed
+        // TODO add your handling code here:
+        if (sessionManager != null) sessionManager.touch();
+        
+        String name = siteTF.getText().trim();
+        String username = usernameTF.getText().trim();
+        String password = new String(passwordTF.getPassword());
+        String url = urlTF.getText().trim();
+        String category = categoryTF.getText().trim();
+        String notes = (notesTF != null) ? notesTF.getText().trim() : "";
+        
+        // Basic Validation
+        if (name.isEmpty() || username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Site Name, Username/Email, and Password are required.", "Input Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // 1. Encrypt the new/modified password
+        String encryptedPassword = EncryptionUtil.encrypt(password);
+        if (encryptedPassword == null) {
+             JOptionPane.showMessageDialog(this, "Error encrypting password. Check application logs.", "Encryption Error", JOptionPane.ERROR_MESSAGE);
+             return;
+        }
+
+        // 2. Update the PasswordEntry object with new values
+        currentEntry.setName(name);
+        currentEntry.setUsername(username);
+        currentEntry.setUrl(url);
+        currentEntry.setCategory(category);
+        currentEntry.setNotes(notes);
+        currentEntry.setEncryptedPassword(encryptedPassword); // Save the new encrypted blob
+
+        // 3. Update database
+        boolean success = DBhelper.updatePassword(currentEntry);
+        
+        if (success) {
+            JOptionPane.showMessageDialog(this, "Password updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+            this.originalEntry = currentEntry;
+            setEditMode(false); // Exit edit mode
+            // Manually update the strength display since  the password changed
+            checkPasswordStrength(password); 
+            // Also need to reset the echo char for security
+            passwordTF.setEchoChar('*');
+        } else {
+            JOptionPane.showMessageDialog(this, "Failed to update password in database.", "DB Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_saveBTNActionPerformed
+
+    private void editBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBTNActionPerformed
+        // TODO add your handling code here:
+        if (sessionManager != null) sessionManager.touch();
+        
+        if (isEditing) {
+            // CANCEL action: Revert changes and exit edit mode
+            this.currentEntry = originalEntry;
+            loadEntryData(); // Reload original data
+            setEditMode(false);
+            // Hide password on exit from edit mode for security
+            viewPswBTN.setSelected(false);
+            passwordTF.setEchoChar('*');
+        } else {
+            // EDIT action: Enter edit mode
+            setEditMode(true);
+            // Show password immediately on entering edit mode for easy editing
+            viewPswBTN.setSelected(true);
+            passwordTF.setEchoChar((char) 0);
+        }
+    }//GEN-LAST:event_editBTNActionPerformed
+
+    private void deleteBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBTNActionPerformed
+        // TODO add your handling code here:
+        if (sessionManager != null) sessionManager.touch();
+        
+        int confirm = JOptionPane.showConfirmDialog(this, 
+            "Are you sure you want to delete the entry for " + currentEntry.getName() + "?", 
+            "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+        
+        if (confirm == JOptionPane.YES_OPTION) {
+            boolean success = DBhelper.deletePassword(currentEntry.getId(), userEmail);
+            
+            if (success) {
+                JOptionPane.showMessageDialog(this, "Password entry deleted.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                returnToDashboard(); // Go back to the dashboard, which will refresh the list
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to delete password entry.", "DB Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_deleteBTNActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ReflectiveOperationException | javax.swing.UnsupportedLookAndFeelException ex) {
+            logger.log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> new ViewPasswordGUI().setVisible(true));
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton backBTN;
+    private javax.swing.JPanel background;
+    private javax.swing.JLabel categoryLBL;
+    private javax.swing.JTextField categoryTF;
+    private javax.swing.JButton deleteBTN;
+    private javax.swing.JButton editBTN;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel notesLBL;
+    private javax.swing.JTextField notesTF;
+    private javax.swing.JLabel passwordLBL;
+    private javax.swing.JLabel passwordStrengthLBL;
+    private javax.swing.JPasswordField passwordTF;
+    private javax.swing.JProgressBar pswdProgressBar;
+    private javax.swing.JButton saveBTN;
+    private javax.swing.JLabel siteLBL;
+    private javax.swing.JTextField siteTF;
+    private javax.swing.JLabel titleLBL;
+    private javax.swing.JLabel urlLBL;
+    private javax.swing.JTextField urlTF;
+    private javax.swing.JLabel usernameLBL;
+    private javax.swing.JTextField usernameTF;
+    private javax.swing.JRadioButton viewPswBTN;
+    // End of variables declaration//GEN-END:variables
+}

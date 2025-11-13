@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/D:/NCI/Year%203/SEM%201/Security%20Fundamentals%20and%20Development/Group%20Work/Password%20Manager%20Project/Code/Virginiah/src/secureaccess/DatabaseConnection.java</file>
+            <file>file:/D:/NCI/Year%203/SEM%201/Security%20Fundamentals%20and%20Development/Group%20Work/Password%20Manager%20Project/Code/Virginiah/src/secureaccess/DashboardGUI.java</file>
+            <file>file:/D:/NCI/Year%203/SEM%201/Security%20Fundamentals%20and%20Development/Group%20Work/Password%20Manager%20Project/Code/Virginiah/src/secureaccess/ViewPasswordGUI.java</file>
+            <file>file:/D:/NCI/Year%203/SEM%201/Security%20Fundamentals%20and%20Development/Group%20Work/Password%20Manager%20Project/Code/Virginiah/src/secureaccess/loginGUI.java</file>
+            <file>file:/D:/NCI/Year%203/SEM%201/Security%20Fundamentals%20and%20Development/Group%20Work/Password%20Manager%20Project/Code/Virginiah/src/secureaccess/SecureAccess.java</file>
+            <file>file:/D:/NCI/Year%203/SEM%201/Security%20Fundamentals%20and%20Development/Group%20Work/Password%20Manager%20Project/Code/Virginiah/src/secureaccess/EncryptionUtil.java</file>
+            <file>file:/D:/NCI/Year%203/SEM%201/Security%20Fundamentals%20and%20Development/Group%20Work/Password%20Manager%20Project/Code/Virginiah/src/secureaccess/SessionManager.java</file>
+            <file>file:/D:/NCI/Year%203/SEM%201/Security%20Fundamentals%20and%20Development/Group%20Work/Password%20Manager%20Project/Code/Virginiah/src/secureaccess/AddPasswordGUI.java</file>
+            <file>file:/D:/NCI/Year%203/SEM%201/Security%20Fundamentals%20and%20Development/Group%20Work/Password%20Manager%20Project/Code/Virginiah/src/secureaccess/DBhelper.java</file>
+            <file>file:/D:/NCI/Year%203/SEM%201/Security%20Fundamentals%20and%20Development/Group%20Work/Password%20Manager%20Project/Code/Virginiah/src/secureaccess/IdleMonitor.java</file>
+            <file>file:/D:/NCI/Year%203/SEM%201/Security%20Fundamentals%20and%20Development/Group%20Work/Password%20Manager%20Project/Code/Virginiah/src/secureaccess/KeyManager.java</file>
+            <file>file:/D:/NCI/Year%203/SEM%201/Security%20Fundamentals%20and%20Development/Group%20Work/Password%20Manager%20Project/Code/Virginiah/src/secureaccess/PasswordEntry.java</file>
+            <file>file:/D:/NCI/Year%203/SEM%201/Security%20Fundamentals%20and%20Development/Group%20Work/Password%20Manager%20Project/Code/Virginiah/src/secureaccess/PasswordStrengthUtil.java</file>
+            <file>file:/D:/NCI/Year%203/SEM%201/Security%20Fundamentals%20and%20Development/Group%20Work/Password%20Manager%20Project/Code/Virginiah/src/secureaccess/SessionDAO.java</file>
+            <file>file:/D:/NCI/Year%203/SEM%201/Security%20Fundamentals%20and%20Development/Group%20Work/Password%20Manager%20Project/Code/Virginiah/src/secureaccess/Hashing.java</file>
+            <file>file:/D:/NCI/Year%203/SEM%201/Security%20Fundamentals%20and%20Development/Group%20Work/Password%20Manager%20Project/Code/Virginiah/src/secureaccess/CryptoUtils.java</file>
+            <file>file:/D:/NCI/Year%203/SEM%201/Security%20Fundamentals%20and%20Development/Group%20Work/Password%20Manager%20Project/Code/Virginiah/src/secureaccess/PasswordsDao.java</file>
+            <file>file:/D:/NCI/Year%203/SEM%201/Security%20Fundamentals%20and%20Development/Group%20Work/Password%20Manager%20Project/Code/Virginiah/src/secureaccess/UsersDao.java</file>
+            <file>file:/D:/NCI/Year%203/SEM%201/Security%20Fundamentals%20and%20Development/Group%20Work/Password%20Manager%20Project/Code/Virginiah/src/secureaccess/signupGUI.java</file>
+            <file>file:/D:/NCI/Year%203/SEM%201/Security%20Fundamentals%20and%20Development/Group%20Work/Password%20Manager%20Project/Code/Virginiah/src/secureaccess/CryptoUtil.java</file>
+        </group>
+    </open-files>
+</project-private>
